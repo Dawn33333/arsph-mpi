@@ -11,9 +11,9 @@ This repository provides the **binary reproducibility package** associated with 
 
 This repository provides executable programs and run scripts that allow readers and reviewers to reproduce:
 
-- the 3D Kelvin–Helmholtz instability problem
-- strong scaling performance test
-- weak scaling performance test
+- the Kelvin-Helmholtz instability problem  
+- strong scaling test  
+- weak scaling test  
 
 reported in the manuscript.
 
@@ -25,13 +25,14 @@ All necessary input data and test configurations are embedded in each executable
 ## Software availability statement
 
 The full source code cannot be publicly released due to funding agreement restrictions and intellectual property constraints associated with the supporting research grants.
+
 To ensure reproducibility and verification:
 
-- Executable binaries are provided
-- All input data are compiled into the executables
-- Run scripts are provided for MPI and SLURM environments
-- Test cases correspond directly to those in the manuscript
-- Key algorithms are fully described in the paper (with pseudocode)
+- Executable binaries are provided  
+- All required input data are embedded in the executables  
+- Run scripts are provided for MPI and SLURM environments  
+- Test cases correspond directly to those in the manuscript  
+- Key algorithms are fully described in the paper (including pseudocode)
 
 These materials enable independent reproduction of the numerical results and performance measurements.
 
@@ -39,12 +40,12 @@ These materials enable independent reproduction of the numerical results and per
 
 ## Requirements
 
-- Linux x86_64
-- MPI implementation (any of the following):
-  - OpenMPI
-  - MPICH
-  - Intel MPI
-- SLURM is required only for batch submission scripts
+- Linux x86_64  
+- MPI implementation (any of the following):  
+  - OpenMPI  
+  - MPICH  
+  - Intel MPI  
+- SLURM is required only for batch submission scripts  
 
 The code is MPI-based and does not depend on a specific MPI vendor.
 
@@ -53,23 +54,23 @@ The code is MPI-based and does not depend on a specific MPI vendor.
 ## Repository structure
 
 This repository contains executable binaries and run scripts for the
-Kelvin–Helmholtz instability problem used in the manuscript.
+Kelvin-Helmholtz instability problem used in the manuscript.
 
 The files are organized as follows:
 
-- `examples/kelvin-helmholtz/strong/`
-  Contains executables for strong scaling tests with a fixed problem size.
-  Separate subdirectories are provided for different MPI core counts
-  (e.g., 128, 256, 256, 512, 1024, 2048, 3072, 4096 cores).
+- `examples/kelvin-helmholtz/strong/`  
+  Contains executables for the strong scaling test with a fixed problem size.  
+  Separate subdirectories are provided for different MPI core counts  
+  (e.g., 128, 256, 512, 1024, 2048, 3072, 4096 cores).
 
-- `examples/kelvin-helmholtz/weak/`
-  Contains executables for weak scaling tests.  
-  Each executable has the problem size embedded internally and corresponds
+- `examples/kelvin-helmholtz/weak/`  
+  Contains executables for the weak scaling test.  
+  Each executable has the problem size embedded internally and corresponds  
   to a specific MPI core count.
 
 Within each scaling directory, the following files are provided:
 
-- `ARSPH` — self-contained executable binary  
+- `ARSPH` — executable binary  
 - `run.sh` — MPI execution script  
 - `submit.slurm` — example SLURM batch submission script  
 
@@ -84,7 +85,7 @@ To reproduce the results, follow the steps below.
 
 ### Step 1. Enter the desired working directory
 
-For example, for a 128-core strong-scaling test:
+For example, for a 128-core strong scaling test:
 
 ```bash
 cd examples/kelvin-helmholtz/strong/128cores
@@ -102,8 +103,7 @@ chmod +x ARSPH run.sh
 
 ### Step 3. Create required output directories
 
-The program writes output data to the following directories.  
-Create them before execution:
+Create output directories before execution:
 
 ```bash
 mkdir parallelio data
@@ -114,8 +114,6 @@ mkdir parallelio data
 ### Step 4. Running the program
 
 #### 4.1 Running interactively (MPI)
-
-To run the program interactively using MPI:
 
 ```bash
 ./run.sh
@@ -130,16 +128,11 @@ mpirun -np <N> ./ARSPH <<EOF
 EOF
 ```
 
-where `<N>` corresponds to the MPI core count associated with the current directory  
-(e.g., 64cores, 128cores, 256cores, etc.).
-
-Each scaling directory contains a `run.sh` script configured for its specific MPI core count.
+where `<N>` corresponds to the MPI core count associated with the current directory.
 
 ---
 
 #### 4.2 Running via SLURM (HPC batch systems)
-
-On SLURM-based HPC systems, submit the job using:
 
 ```bash
 sbatch submit.slurm
@@ -151,19 +144,39 @@ The `submit.slurm` script specifies:
 - MPI ranks per node  
 - total core count  
 - partition/queue  
-- required environment modules
+- required environment modules  
 
 Users may adjust SLURM resource parameters according to their local cluster configuration.
 
 ---
 
-### 5. Output
+## Output
 
-During execution, the program prints:
+During execution, the program writes simulation particle data to the
+`parallelio/` directory.
 
-- runtime statistics  
-- solver progress information  
+This directory must be created before execution and will contain the
+output fields generated during the simulation.
 
-Performance results reported in the manuscript correspond to the total wall-clock time printed during execution.
+Runtime information and solver diagnostics are printed to the terminal.
+The performance measurements reported in the manuscript correspond to
+the total wall-clock time printed during execution.
 
-Minor floating-point variations across different systems are expected.
+Minor floating-point differences across systems are expected in
+parallel MPI runs.
+
+---
+
+## Reproducibility notes
+
+- All input data are embedded in the executable binaries  
+- No external configuration files are required  
+- Each executable corresponds to a specific configuration  
+- The Kelvin-Helmholtz instability problem provided here is identical to the one
+  used in the manuscript  
+- Strong scaling test uses a fixed global problem size  
+- Weak scaling test uses problem sizes that scale with MPI core count  
+
+These executables are provided solely for verification of the results
+reported in the associated publication.
+
