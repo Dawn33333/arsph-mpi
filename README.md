@@ -122,6 +122,7 @@ mkdir parallelio data
 The script internally executes:
 
 ```bash
+#!/bin/bash
 mpirun -np <N> ./ARSPH <<EOF
 208
 0
