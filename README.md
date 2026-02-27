@@ -58,6 +58,11 @@ Kelvin-Helmholtz instability problem used in the manuscript.
 
 The files are organized as follows:
 
+- `examples/kelvin-helmholtz/full-simulation/`  
+  Contains the complete physical simulation of the Kelvin-Helmholtz instability
+  problem from initialization to the final simulation time.  
+  This run reproduces the full time evolution presented in the manuscript.
+
 - `examples/kelvin-helmholtz/strong/`  
   Contains executables for the strong scaling test with a fixed problem size.  
   Separate subdirectories are provided for different MPI core counts  
