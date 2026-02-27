@@ -1,6 +1,6 @@
 # ARSPH-MPI
 
-Massive MPI-parallel adaptive-resolution SPH solver for large-scale multiphase flow simulations.  
+A massive MPI parallel adaptive resolution SPH solver for large-scale multiphase flow simulations.  
 This repository provides the **binary reproducibility package** associated with the Computer Physics Communications manuscript:
 
 **A Massive MPI Parallel Adaptive Resolution SPH Method for Large-Scale Multiphase Flow Simulations**
